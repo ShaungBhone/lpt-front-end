@@ -99,8 +99,8 @@ const Contact = () => {
             </Head>
 
             <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
+                <div className="max-w-7xl mx-auto">
+                    <div className="isolate bg-white px-6 sm:py-12 lg:px-8">
                         <AuthSessionStatus className="mb-4" status={status} />
                         {console.log(success)}
                         {success && (
@@ -118,15 +118,15 @@ const Contact = () => {
                             className="mx-auto mt-16 max-w-xl sm:mt-20">
                             <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                                 <div className="sm:col-span-2">
-                                    <Label htmlFor="showInputName">
-                                        <span className="ml-4">Name</span>
+                                    <Label className="mb-5" htmlFor="name">
+                                        Name
                                     </Label>
                                     <div>
                                         <Input
                                             id="name"
                                             type="name"
                                             value={name}
-                                            className="block mt-4 w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 "
                                             onChange={event =>
                                                 setName(event.target.value)
                                             }
