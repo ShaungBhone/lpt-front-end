@@ -46,13 +46,15 @@ const Contact = () => {
         setShow(state)
     }
 
-    const [showInputName, setShowInputName] = useState(true)
     const [showInputDob, setShowInputDob] = useState(true)
     const [showInputPhone, setShowInputPhone] = useState(true)
+    const [showInputGender, setShowInputGender] = useState(true)
     const [name, setName] = useState('')
     const [phone, setPhone] = useState('')
+    const [gender, setGender] = useState('')
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null)
+    const [success, setSuccess] = useState(false)
 
     const { send } = useAuth({
         middleware: 'auth',
@@ -67,9 +69,15 @@ const Contact = () => {
             name,
             dob,
             phone,
+            gender,
             setErrors,
             setStatus,
+            onSuccess: () => setSuccess(true),
         })
+
+        setName('')
+        setDob(null)
+        setPhone('')
     }
 
     useEffect(() => {
@@ -79,7 +87,6 @@ const Contact = () => {
             setStatus(null)
         }
     })
-    console.log(errors)
     return (
         <AppLayout
             header={
@@ -95,28 +102,26 @@ const Contact = () => {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
                         <AuthSessionStatus className="mb-4" status={status} />
+                        {console.log(success)}
+                        {success && (
+                            <div
+                                className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+                                role="alert">
+                                <strong className="font-bold">Success!</strong>
+                                <span className="block sm:inline">
+                                    Your form has been submitted successfully.
+                                </span>
+                            </div>
+                        )}
                         <form
                             onSubmit={submitForm}
                             className="mx-auto mt-16 max-w-xl sm:mt-20">
                             <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                                 <div className="sm:col-span-2">
                                     <Label htmlFor="showInputName">
-                                        <Input
-                                            id="showInputName"
-                                            type="checkbox"
-                                            checked={showInputName}
-                                            onChange={event =>
-                                                setShowInputName(
-                                                    event.target.checked,
-                                                )
-                                            }
-                                        />
                                         <span className="ml-4">Name</span>
                                     </Label>
-                                    <div
-                                        className={
-                                            showInputName ? '' : 'hidden'
-                                        }>
+                                    <div>
                                         <Input
                                             id="name"
                                             type="name"
@@ -208,6 +213,50 @@ const Contact = () => {
                                             className="mt-2"
                                         />
                                     </div>
+                                </div>
+                                <Input
+                                    id="showInputGender"
+                                    type="checkbox"
+                                    checked={showInputGender}
+                                    onChange={event =>
+                                        setShowInputGender(event.target.checked)
+                                    }
+                                />
+                                <div
+                                    className={showInputGender ? '' : 'hidden'}>
+                                    <Input
+                                        id="bordered-checkbox-1"
+                                        type="checkbox"
+                                        value="male"
+                                        checked={gender === 'male'}
+                                        onChange={event =>
+                                            setGender(event.target.value)
+                                        }
+                                        name="bordered-checkbox"
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    />
+                                    <Label
+                                        htmlFor="bordered-checkbox-1"
+                                        className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Male
+                                    </Label>
+
+                                    <Input
+                                        id="bordered-checkbox-1"
+                                        type="checkbox"
+                                        value="female"
+                                        checked={gender === 'female'}
+                                        onChange={event =>
+                                            setGender(event.target.value)
+                                        }
+                                        name="bordered-checkbox"
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    />
+                                    <Label
+                                        htmlFor="bordered-checkbox-1"
+                                        className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Female
+                                    </Label>
                                 </div>
                             </div>
                             <div className="mt-10">

@@ -98,15 +98,26 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         window.location.pathname = '/login'
     }
 
-    const send = async ({ setErrors, setStatus, ...props }) => {
+    const send = async ({
+        name,
+        dob,
+        phone,
+        gender,
+        setErrors,
+        setStatus,
+        onSuccess,
+    }) => {
         await csrf()
 
         setErrors([])
         setStatus(null)
 
         axios
-            .post('/api/send', props)
-            .then(() => mutate())
+            .post('/api/send', { name, dob, phone, gender })
+            .then(() => {
+                mutate()
+                onSuccess()
+            })
             .catch(error => {
                 setErrors(error.response.data.errors)
             })
