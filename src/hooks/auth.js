@@ -91,11 +91,25 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     }
 
     const logout = async () => {
-        if (! error) {
+        if (!error) {
             await axios.post('/logout').then(() => mutate())
         }
 
         window.location.pathname = '/login'
+    }
+
+    const send = async ({ setErrors, setStatus, ...props }) => {
+        await csrf()
+
+        setErrors([])
+        setStatus(null)
+
+        axios
+            .post('/api/send', props)
+            .then(() => mutate())
+            .catch(error => {
+                setErrors(error.response.data.errors)
+            })
     }
 
     useEffect(() => {
@@ -117,5 +131,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         resetPassword,
         resendEmailVerification,
         logout,
+        send,
     }
 }
